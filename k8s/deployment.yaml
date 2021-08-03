@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: news-django-api-deploy
+  labels:
+    app: backend-news-django-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-news-django-api
+  template:
+    metadata:
+      labels:
+        app: backend-news-django-api
+    spec:
+      containers:
+        - name: news-django-api
+          image: news-django-api
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          readinessProbe:
+            tcpSocket:
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10

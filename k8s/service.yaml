@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: news-django-api-svc
+spec:
+  selector:
+    app: backend-news-django-api
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+      protocol: TCP
